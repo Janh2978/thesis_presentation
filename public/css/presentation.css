@@ -1,0 +1,108 @@
+.border {
+  border: 15px solid black;
+  display: flex;
+  align-items: center;
+  height: 610px;
+}
+
+.vertical {
+  width:100%;
+  height: 100%;
+  text-transform: none;
+  padding: 0 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.small-images-container {
+  display: flex;
+  height: 260px;
+  justify-content: space-around;
+}
+
+.small-images-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.small-image {
+  margin: 0 !important; 
+  height: 80% !important; 
+  border: unset !important; 
+  box-shadow: unset !important; 
+  max-width: unset !important; 
+  max-height: unset !important;
+}
+
+.big-images-container {
+  display: flex;
+  height: 470px;
+  justify-content: space-around;
+}
+
+.big-image {
+  height: 80% !important;  
+  border: unset !important; 
+  box-shadow: unset !important; 
+  max-width: unset !important; 
+  max-height: unset !important;
+}
+
+ul.ul-list {
+  list-style-type: circle; 
+  margin-bottom: 20px;
+}
+
+ul>li, ol>li {
+  font-size: 35px;
+}
+
+h3 {
+  text-transform: none !important;
+}
+
+h4 {
+  text-align: left !important; 
+  text-transform: none !important;
+}
+
+.flow-chart {
+  width: 30%; 
+  display: flex; 
+  flex-direction: column;
+  font-size: 25px;
+  justify-content: space-evenly;
+}
+
+.flow-chart-box {
+  padding: 12px;
+  border: 3px solid black;
+}
+
+th, td {
+  border-bottom: unset !important;
+}
+
+table {
+  margin: 30px auto 20px auto !important;
+}
+
+tr:last-child {
+  border-bottom: 4px solid black !important;
+}
+
+tr:first-child {
+  border-top: 4px solid black !important;
+  border-bottom: 1px solid black !important;
+}
+
+.bib {
+  list-style: none !important;
+}
+
+.bib>li {
+  font-size: 20px !important;
+}

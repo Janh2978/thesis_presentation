@@ -1,0 +1,1125 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title>Presentación de Tésis</title>
+		<link rel="stylesheet" href="css/reset.css">
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/monokai.css">
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+		<link rel="stylesheet" href="css/presentation.css">
+		<script src="/socket.io/socket.io.js"></script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-background="https://i.redd.it/vdmytdsf3cu31.jpg">
+					<div style="
+						border: 15px solid white;
+						display: flex;
+						align-items: center;
+						filter: drop-shadow(2px 2px 2px black);
+						height: 610px;
+					">
+						<div>
+							<h3 style="padding: 0 150px;">ALGORITMOS PARA EL PREPROCESAMIENTO DE LAS IMÁGENES DE LA RETINA</h3>
+							<br>
+							<div style="display:flex; flex-direction: column;">
+								<small>Asesor: PhD. César Carranza</small>
+								<small>Tesista: Jorge Navarro</small>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section data-background="#fff">
+					<div class="border">
+						<div class="vertical">
+							<h3>Retinopatía Diabética</h3>
+							<h4>Definición</h4>
+							<ul class="ul-list">
+								<li>Enfermedad relacionada a la diabetes tipo 1 y tipo 2.[1]</li>
+								<li>Genera la pérdida parcial de la visión o incluso ceguera.[2]</li>
+							</ul>
+							<div class="small-images-container">
+								<div class="small-images-box">
+									<img src="./imgs/figura1.png" alt="" class="small-image">
+									<small><strong>Figura 1.</strong> Imagen de la retina con RD</small>
+								</div>
+								<div class="small-images-box">
+									<img src="./imgs/figura2.png" alt="" class="small-image">
+									<small><strong>Figura 2.</strong> Visión de un paciente con RD</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section data-background="#fff">
+					<div class="border">
+						<div class="vertical">
+							<h3>Retinopatía Diabética</h3>
+							<h4>Contexto</h4>
+							<ul class="ul-list">
+								<li>
+									Cerca de 72 millones de personas tiene diabetes. [3]
+									<ul>
+										<li>A medida que aumenta la prevalencia de la diabetes, también aumenta el número de personas con RD.</li>
+									</ul>
+								</li>
+								<li>
+									La RD es la 3ra causa de ceguera irreversible en el mundo. [4]
+									<ul>
+										<li>1era causa en edad productiva.</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section data-background="#fff">
+					<div class="border">
+						<div class="vertical">
+							<h3>Retinopatía Diabética</h3>
+							<h4>Contexto</h4>
+							<ul class="ul-list">
+								<li>
+									Existe una insuficiente respuesta del Sector Salud. [5]
+								</li>
+								<li>
+									La RD cae en la categoría de ‘ceguera evitable’, ya que puede ser tratada o prevenible.
+								</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section data-background="#fff">
+					<div class="border">
+						<div class="vertical">
+							<h3>Sistemas de Tele-oftalmología</h3>
+							<h4>Teleretinal Screening in Mexico [6]</h4>
+							<div class="small-images-container">
+								<div class="small-images-box">
+									<img src="./imgs/figura3.png" alt="" class="small-image">
+									<small><strong>Figura 3.</strong> Imagen adaptada de Vision Quest</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section data-background="#fff">
+					<div class="border">
+						<div class="vertical">
+							<h3>Imágenes de la Retina</h3>
+							<div class="big-images-container">
+								<div class="small-images-box">
+									<img src="./imgs/figura4.png" alt="" class="big-image">
+									<small><strong>Figura 4.</strong> Campo 1 [7]</small>
+								</div>
+								<div class="small-images-box">
+									<img src="./imgs/figura5.png" alt="" class="big-image">
+									<small><strong>Figura 5.</strong> Campo 2 [7]</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<section data-background="#fff">
+					<div class="border">
+						<div class="vertical">
+							<h3>Objetivos</h3>
+							<h4>Objetivo Principal</h4>
+							<ul class="ul-list">
+								<li>
+									Desarrollar un algoritmo que tenga por finalidad mejorar el correcto procesamiento automático y/o manual de las imágenes de la retina.
+								</li>
+							</ul>
+							<h4>Objetivos Secundarios</h4>
+							<ol style="margin-bottom: 20px;">
+								<li>
+									La detección del disco óptico y la mácula.
+								</li>
+								<li>
+									Determinar si la imagen está centrada en el disco óptico o la mácula. 
+								</li>
+								<li>
+									Para imágenes de campo 2, determinar si dicha imagen corresponde al ojo izquierdo o derecho. 
+								</li>
+							</ol>
+						</div>
+					</div>
+				</section>
+				<section data-background="#fff">
+					<div class="border">
+							<div class="vertical">
+							<h3>Diseño</h3>
+							<h4>Herramientas</h4>
+							<ul class="ul-list">
+								<li>
+									Base de Datos
+									<ul>
+										<li>MESSIDOR, para imágenes campo 2. (1200 imágenes)</li>
+										<li>Drions-DB, para imágenes campo 1. (110 imágenes)</li>
+									</ul>
+								</li>
+							</ul>
+							<ul class="ul-list">
+								<li>
+									Software
+									<ul>
+										<li>Matlab</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</section>				
+				<section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box" style="border: none;">Adquisición de la imagen</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura6.png" alt="" class="big-image">
+										<small><strong>Figura 6.</strong> Adquisición de la imagen</small>
+									</div>									
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box" style="border: none;">Adquisición de la imagen</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Extracción del canal verde</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura7.png" alt="" class="big-image">
+										<small><strong>Figura 7.</strong> Extracción del canal verde</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box" style="border: none;">Adquisición de la imagen</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Extracción del canal verde</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Cierre morfológico</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura8.png" alt="" class="big-image">
+										<small><strong>Figura 8.</strong> Cierre morfológico</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box" style="border: none;">Adquisición de la imagen</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Extracción del canal verde</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Cierre morfológico</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">División de la imagen</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura9.png" alt="" class="big-image">
+										<small><strong>Figura 9.</strong> División de la imagen</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box" style="border: none;">Adquisición de la imagen</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Extracción del canal verde</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Cierre morfológico</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">División de la imagen</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura10.png" alt="" class="big-image">
+										<small><strong>Figura 10.</strong> Canal verde de la división de la imagen</small>
+									</div>									
+								</div>
+							</div>
+						</div>
+					</section>
+				</section>
+				<section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">								
+									<div class="small-images-box">
+										<img src="./imgs/figura11.png" alt="" class="big-image" style="height: 100%">
+									</div>									
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">								
+									<div class="small-images-box">
+										<img src="./imgs/figura12.png" alt="" class="big-image" style="height: 100%">
+									</div>									
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">								
+									<div class="small-images-box">
+										<img src="./imgs/figura13.png" alt="" class="big-image" style="height: 100%">
+									</div>									
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">								
+									<div class="small-images-box">
+										<img src="./imgs/figura14.png" alt="" class="big-image" style="height: 100%">
+									</div>									
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">								
+									<div class="small-images-box">
+										<img src="./imgs/figura15.png" alt="" class="big-image" style="height: 100%">
+									</div>									
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">								
+									<div class="small-images-box">
+										<img src="./imgs/figura16.png" alt="" class="big-image" style="height: 100%">
+									</div>									
+								</div>
+							</div>
+						</div>
+					</section>
+				</section>
+				<section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación del disco óptico</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura17.png" alt="" class="big-image">
+										<small><strong>Figura 11.</strong> Canal verde de la división de la imagen</small>
+									</div>									
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación del disco óptico</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura18.png" alt="" class="big-image">
+										<small><strong>Figura 12.</strong> Estimación de la ubicación del disco óptico</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación del disco óptico</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Otsu</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura19.png" alt="" class="big-image">
+										<small><strong>Figura 13.</strong> Aplicación del Método de Otsu</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación del disco óptico</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Otsu</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Segmentación</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura20.png" alt="" class="big-image">
+										<small><strong>Figura 14.</strong> Segmentación</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación del disco óptico</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Otsu</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Segmentación</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura21.png" alt="" class="big-image">
+										<small><strong>Figura 15.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación del disco óptico</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Otsu</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Segmentación</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura22.png" alt="" class="big-image">
+										<small><strong>Figura 16.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación del disco óptico</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Otsu</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Segmentación</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura23.png" alt="" class="big-image">
+										<small><strong>Figura 17.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación del disco óptico</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Otsu</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Segmentación</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura24.png" alt="" class="big-image">
+										<small><strong>Figura 18.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación del disco óptico</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Otsu</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Segmentación</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura25.png" alt="" class="big-image">
+										<small><strong>Figura 19.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación del disco óptico</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Otsu</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Segmentación</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura26.png" alt="" class="big-image">
+										<small><strong>Figura 20.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación del disco óptico</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Otsu</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Segmentación</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box" style="border: none;">Determinación de la posición y el campo</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura27.png" alt="" class="big-image">
+										<small><strong>Figura 21.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación del disco óptico</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Otsu</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Segmentación</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box" style="border: none;">Determinación de la posición y el campo</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura28.png" alt="" class="big-image">
+										<small><strong>Figura 22.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</section>
+				<section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación de la mácula</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura29.png" alt="" class="big-image">
+										<small><strong>Figura 23.</strong> Canal verde de la división de la imagen</small>
+									</div>									
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación de la mácula</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura30.png" alt="" class="big-image">
+										<small><strong>Figura 23.</strong> Canal verde de la división de la imagen</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación de la mácula</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Cierre morfológico</div>										
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura31.png" alt="" class="big-image">
+										<small><strong>Figura 24.</strong> Aplicación del cierre morfológico</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación de la mácula</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Cierre morfológico</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Otsu</div>										
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura32.png" alt="" class="big-image">
+										<small><strong>Figura 25.</strong> Aplicación del Método de Otsu</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación de la mácula</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Cierre morfológico</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Otsu</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Segmentación</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura33.png" alt="" class="big-image">
+										<small><strong>Figura 26.</strong> Segmentación</small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación de la mácula</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Cierre morfológico</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Otsu</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Segmentación</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura34.png" alt="" class="big-image">
+										<small><strong>Figura 27.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación de la mácula</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Cierre morfológico</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Otsu</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Segmentación</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura35.png" alt="" class="big-image">
+										<small><strong>Figura 28.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación de la mácula</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Cierre morfológico</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Otsu</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Segmentación</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura36.png" alt="" class="big-image">
+										<small><strong>Figura 29.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Estimación de la ubicación de la mácula</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Cierre morfológico</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Otsu</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Segmentación</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura37.png" alt="" class="big-image">
+										<small><strong>Figura 30.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</section>
+				<section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">
+										<div class="flow-chart-box">Extracción de los bordes de los objetos segmentados</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura38.png" alt="" class="big-image">
+										<small><strong>Figura 31.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">										
+										<div class="flow-chart-box">Extracción de los bordes de los objetos segmentados</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura39.png" alt="" class="big-image">
+										<small><strong>Figura 32.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">										
+										<div class="flow-chart-box">Extracción de los bordes de los objetos segmentados</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Kasa</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura40.png" alt="" class="big-image">
+										<small><strong>Figura 6.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">										
+										<div class="flow-chart-box">Extracción de los bordes de los objetos segmentados</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Kasa</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura41.png" alt="" class="big-image">
+										<small><strong>Figura 33.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">										
+										<div class="flow-chart-box">Extracción de los bordes de los objetos segmentados</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Kasa</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura42.png" alt="" class="big-image">
+										<small><strong>Figura 6.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">										
+										<div class="flow-chart-box">Extracción de los bordes de los objetos segmentados</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Kasa</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura43.png" alt="" class="big-image">
+										<small><strong>Figura 34.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Diseño</h3>
+								<div class="big-images-container">
+									<div class="flow-chart">										
+										<div class="flow-chart-box">Extracción de los bordes de los objetos segmentados</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box">Método de Kasa</div>
+										<svg style="margin: 0 auto;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24l-8-9h6v-15h4v15h6z"/></svg>
+										<div class="flow-chart-box" style="border: none;">Salida de la imagen</div>
+									</div>
+									<div class="small-images-box" style="width: 70%;">
+										<img src="./imgs/figura44.png" alt="" class="big-image">
+										<small><strong>Figura 35.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</section>
+				<section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Resultados</h3>
+								<ul class="ul-list">
+									<li>Se elaboró el ground-truth para validar las detecciones por el algoritmo.</li>
+									<li>Se analizaron 300 imágenes campo 2 de la base de datos MESSIDOR y 100 imágenes de campo 1 de la base de datos DRIONS.</li>
+								</ul>
+								<div class="small-images-container">
+									<div class="small-images-box">
+										<img src="./imgs/figura45.png" alt="" class="small-image">
+										<small><strong>Figura 36.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Resultados</h3>
+								<ul class="ul-list">
+									<li>Se elaboró el ground-truth para validar las detecciones por el algoritmo.</li>
+									<li>Se analizaron 300 imágenes campo 2 de la base de datos MESSIDOR y 100 imágenes de campo 1 de la base de datos DRIONS.</li>
+								</ul>
+								<div class="small-images-container">
+									<div class="small-images-box">
+										<img src="./imgs/figura46.png" alt="" class="small-image">
+										<small><strong>Figura 37.</strong></small>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+				</section>
+				<section>
+					<section data-background="#000">
+						<div class="border" style="border: 15px solid white;">
+							<div class="vertical">
+								<h3>Imágenes de la Retina</h3>
+								<h4 style="text-align: center !important">Campo 1</h4>
+								<div class="big-images-container" style="height: 270px;">
+									<div class="small-images-box">
+										<img src="./imgs/figura47.png" alt="" class="big-image">
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Resultados</h3>
+								<table>
+									<tr>
+										<th>Total de imagenes: 100</th>
+										<th style="text-align: center;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg></th>
+										<th style="text-align: center;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"/></svg></th>
+									</tr>
+									<tr>
+										<td>Detección del campo</td>
+										<td>99</td>
+										<td>1</td>
+									</tr>
+									<tr>
+										<td>Detección del disco óptico</td>
+										<td>93</td>
+										<td>7</td>
+									</tr>
+								</table>
+								<small><strong>Tabla 1.</strong></small>
+							</div>
+						</div>
+					</section>
+				</section>
+				<section>
+					<section data-background="#000">
+						<div class="border" style="border: 15px solid white;">
+							<div class="vertical">
+								<h3>Imágenes de la Retina</h3>
+								<h4 style="text-align: center !important">Campo 2</h4>
+								<div class="big-images-container" style="height: 270px;">
+									<div class="small-images-box">
+										<img src="./imgs/figura48.png" alt="" class="big-image">
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					<section data-background="#fff">
+						<div class="border">
+							<div class="vertical">
+								<h3>Resultados</h3>
+								<p style="font-size: 25px; text-align: left;">De las 300 imágenes, 150 no tenían RD; 50, RD no proliferativa moderada; 50, RD no proliferativa severa y 50, RD poliferativa.</p>
+								<table style="font-size: 30px;">
+									<tr>
+										<th>Total de imagenes: 300</th>
+										<th style="text-align: center;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg></th>
+										<th style="text-align: center;"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"/></svg></th>
+									</tr>
+									<tr>
+										<td>Detección del disco óptico</td>
+										<td>95%</td>
+										<td>5%</td>
+									</tr>
+									<tr>
+										<td>Detección de la mácula</td>
+										<td>93%</td>
+										<td>7%</td>
+									</tr>
+									<tr>
+										<td>Posición del ojo (izquierda o derecha)</td>
+										<td>98%</td>
+										<td>2%</td>
+									</tr>
+									<tr>
+										<td>Detección del campo</td>
+										<td>99%</td>
+										<td>1%</td>
+									</tr>
+								</table>
+								<small><strong>Tabla 2.</strong></small>
+							</div>
+						</div>
+					</section>
+				</section>				
+				<section data-background="#fff">
+					<div class="border">
+						<div class="vertical">
+							<h3>Conclusiones</h3>
+							<ul class="ul-list">
+								<li>
+									Se logró elaborar un algoritmo que permite detectar las características importantes de la retina, determinar a qué campo corresponde la imagen y a qué ojo corresponde la imagen centrada en la mácula.
+								</li>
+								<li>
+									A pesar de que la calidad y el tamaño de las imágenes de ambas bases de datos utilizadas son diferentes se logró una correcta detección de las características de la retina, el campo y la posición del ojo de la imagen.
+								</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section data-background="#fff">
+					<div class="border">
+						<div class="vertical">
+							<h3>Recomendaciones</h3>
+							<ul class="ul-list">
+								<li>
+									Utilizar imágenes de 1440x960 pixeles o normalizarlas antes de procesarlas.
+								</li>
+								<li>
+									Es importante que las imágenes no presenten áreas saturadas de brillo.
+								</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section data-background="#fff">
+					<div class="border">
+						<div class="vertical">
+							<h3>Bibliografía</h3>
+							<ul class="ul-list bib">
+								<li>
+									[1] “Facts About Diabetic Eye Disease.” National Eye Institute, U.S. Department of Health and Human Services, 1 Sept. 2015, nei.nih.gov/health/diabetic/retinopathy.
+								</li>
+								<li>
+									[2] NEI. “Animation: Diabetic Retinopathy.” YouTube, YouTube, 21 Feb. 2014, www.youtube.com/watch?v=X17Q_RPUlYo.
+								</li>
+								<li>
+									[3] Raman, R., Gella, L., Srinivasan, S., & Sharma, T. (2016). Diabetic retinopathy: An epidemic at home and around the world. Indian journal of ophthalmology, 64(1), 69.
+								</li>
+								<li>
+									[4] Programa Visión 2020/IAPB Lationamérica. Asociación Panamericana de Oftalmología APAO. Christian Blind Mission. CBM. Guía práctica clínica de retinopatía diabética para Latinoamérica, 2010.
+								</li>
+								<li>
+									[5] Perú. Ministerio de Salud (2014). Resolución Ministerial N°907: Plan de la estrategia sanitaria nacional de salud ocular y prevención de la ceguera.
+								</li>
+								<li>
+									[6] Gilberto Zamora, Javier Lozano, Richard VanNess, Sheila Nemeth, Omar Meza, Eduardo Martiñón, Elizabeth McGrew, Peter Soliz; Teleretinal Screening in Mexico: a Pilot Project as part of a Comprehensive Diabetes Care Clinic in Monterrey, México. Invest. Ophthalmol. Vis. Sci. 2013;54(15):1550. 
+								</li>
+								<li>
+									[7] Basit, A., & Fraz, M. M. (2015). Optic disc detection and boundary extraction in retinal images. Applied optics, 54(11), 3440-3447.
+								</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				<section data-background="#fff">
+					<div class="border">
+						<div class="vertical">
+							<h3>Gracias</h3>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+		<script src="slave.js"></script>
+		<script src="js/reveal.js"></script>
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				width: "100%",
+				controls: false,
+				progress: true,
+				slideNumber: true,
+				transition: 'fade',
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true }
+				]
+			});
+		</script>
+	</body>
+</html>
+<!-- <section data-background-video="https://storage.googleapis.com/cmgcreate/motions/00fbc8a8-84a7-ddbf-23c4-40ceaa5d65fe/preview.mp4" data-background-video-loop data-background-video-muted></section> -->
