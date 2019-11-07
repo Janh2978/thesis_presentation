@@ -9,7 +9,7 @@ Utilicé **Reveal.js** para generar las diapositivas con javascript y
 Subí el [demo](https://janh2978.herokuapp.com/) a Heroku, ya que era gratis y soportaba Node.js.
 
 ### Controles
-Se puede pasar las diapositivas con las flechas derecha izquierda, pero en diaposiivas como la número 9.1 
+Se puede pasar las diapositivas con las flechas derecha izquierda, pero en diapositivas como la número 9.1 
 se pueden utilizar las teclas con dirección arriba y abajo.<br>
     'f'      - Pantalla completa <br>
     'b'      - Fondo negro<br>
